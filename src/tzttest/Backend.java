@@ -9,6 +9,7 @@ package tzttest;
 //dit is een test van Wietse 2
 //dit is een test van Gert 2 asdasdasdsad
 //lololo
+//dit typt Wietse
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
