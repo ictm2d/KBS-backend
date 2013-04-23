@@ -3,14 +3,7 @@
  * and open the template in the editor.
  */
 package tzttest;
-//dit is een testje
-//dit is nog een testje
-//dit is een test van Bert
-//dit is een test van Wietse 2
-//dit is een test van Gert 2 asdasdasdsad
-//lololo
-//dit typt Wietse
-//asdasda
+
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
