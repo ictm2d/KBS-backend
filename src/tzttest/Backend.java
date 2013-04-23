@@ -6,7 +6,7 @@ package tzttest;
 //dit is een testje
 //dit is nog een testje
 //dit is een test van Bert
-//dit is een test van Wietse
+//dit is een test van Wietse 2
 //dit is een test van Gert
 import java.awt.*;
 import java.awt.event.*;
