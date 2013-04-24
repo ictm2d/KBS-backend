@@ -18,12 +18,14 @@ import javax.swing.table.*;
 public class Backend extends JFrame implements ActionListener {
     
     private Login loginGegevens = new Login();
-    private JPanel backendNorth;
+    private JPanel backendNorth, backendCenter;
     private ArrayList<JButton> buttons = new ArrayList<>();
     private JButton gekozenButton, buttonBeheerders, buttonTreinkoeriers, buttonKoeriers, buttonOpdrachten, buttonUitloggen;
     
     public Backend(Login login) throws SQLException
     {
+		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.loginGegevens = login;
         
         // Scherm eigenschappen
@@ -37,7 +39,7 @@ public class Backend extends JFrame implements ActionListener {
         backendNorth();
         
         // Teken de tabel
-        tekenTabel();
+        tekenTabel("SELECT * FROM beheerder");
     }
     
     public void actionPerformed(ActionEvent ae)
@@ -51,16 +53,15 @@ public class Backend extends JFrame implements ActionListener {
             }
         }
         
-        if(ae.getSource() == buttonUitloggen)
-        {
-            uitloggen();
-        }
+        if(ae.getSource() == buttonUitloggen){uitloggen();}
+        if(ae.getSource() == buttonBeheerders){BeheerdersScherm();}
+        if(ae.getSource() == buttonKoeriers){KoeriersScherm();}
     }
     
-    public void tekenTabel() throws SQLException
+    public void tekenTabel(String sql) throws SQLException
     {
         // Haal de gegevens vd query op uit de database
-        Table tabelgegevens = new Table("SELECT * FROM beheerder");
+        Table tabelgegevens = new Table(sql);
         String[] kolomNamen = tabelgegevens.getKolomNamen();
         Object[][] kolomData = tabelgegevens.getKolomData();
         int aantalKolommen = (kolomNamen.length - 1); // Min 1 ivm array begint bij 0
@@ -85,12 +86,33 @@ public class Backend extends JFrame implements ActionListener {
         JScrollPane scroll = new JScrollPane(tabel);
  
         // Toon de tabel
-        add(scroll);        
+        //add(scroll);
+        backendCenter(scroll);
+        
+        //add(backendCenter, BorderLayout.CENTER);
+    }
+    
+    public void BeheerdersScherm(){
+    	try{
+    		tekenTabel("SELECT * FROM beheerder");
+    	}
+    	catch(Exception e){
+    		System.out.println("Oeps, iets ging fout...!!");
+    	}
+    }
+    
+    public void KoeriersScherm(){
+    	try{
+    		tekenTabel("SELECT * FROM koerier");
+    	}
+    	catch(Exception e){
+    		System.out.println("Oeps, iets ging fout...!!");
+    	}
     }
     
     public void maakButtons()
     {
-        // De buttons definiÃ«ren
+        // De buttons definiëren
         buttonBeheerders = new JButton("Beheerders");
         buttonTreinkoeriers = new JButton("Treinkoeriers");
         buttonKoeriers = new JButton("Koeriers");
@@ -98,8 +120,8 @@ public class Backend extends JFrame implements ActionListener {
         buttonUitloggen = new JButton("Uitloggen");
         
         // Omdat er altijd begonnen wordt op het beheerders scherm, is die knop in eerste instantie altijd ingekleurd
-        buttonBeheerders.setBackground(Color.yellow);
-        gekozenButton = buttonBeheerders;
+        //buttonBeheerders.setBackground(Color.yellow);
+        //gekozenButton = buttonBeheerders;
         
         // De buttons aan ArrayList toevoegen
         buttons.add(buttonBeheerders);
@@ -162,6 +184,17 @@ public class Backend extends JFrame implements ActionListener {
         
         add(backendNorth, BorderLayout.NORTH);
     }
+    
+    //Deze funtie wordt gebruikt om de tabellen in het midden van het scherm weer te geven
+    public void backendCenter(JScrollPane scroll){
+    	backendCenter = new JPanel();
+    	backendCenter.setLayout(new BorderLayout());
+    	
+    	System.out.println("Hoi");
+    	backendCenter.add(scroll);
+    	this.add(backendCenter, BorderLayout.CENTER);
+    	backendCenter.repaint();
+	}
     
     public void uitloggen()
     {
